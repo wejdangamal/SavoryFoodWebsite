@@ -1,0 +1,38 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Home";
+	int? id = Context.Session.GetInt32("Id");
+}
+@if(Context.Session.GetInt32("Id") != 0 || Context.Session.GetInt32("Id") != null){
+<div class="gtco-section" id="menu">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2 class="cursive-font primary-color">Popular Dishes</h2>
+					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+				</div>
+			</div>
+			<div class="row">
+			@foreach(var product in Model){
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a class="fh5co-card-item" asp-action="AddCart" asp-controller="Customer" asp-route-id="@product.product_ID">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src=@product.product_image alt="Image" class="img-responsive">
+						
+						</figure>
+						<div class="fh5co-text">
+							<h2>@product.product_name</h2>
+							
+							<p><span class="price cursive-font">@product.product_price $</span>
+							</p>
+			
+						</div>
+					</a>
+				</div>
+			}
+			</div>
+		</div>
+	</div>
+}
