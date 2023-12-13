@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Savory_Website.props" />
+</Project>

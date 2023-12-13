@@ -1,0 +1,93 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Register";
+    Layout ="_Layout";
+}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>Sign Up</title>
+  </head>
+  <body>
+  <div class="d-md-flex half">
+    <div class="bg" style="background-image: url('/images/bg_1.jpg');"></div>
+    <div class="contents">
+
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-12">
+            <div class="form-block mx-auto">
+              <div class="text-center mb-3">
+                <h3 class="text-uppercase">Login to Savory</h3>
+              </div>
+              <form asp-controller="Customer" asp-action="Register" method="post">
+                   <div class="form-group first">
+                 <span asp-validation-for="name" class="text-danger"></span>
+                  <label for="name">Username</label>
+                  <input asp-for="name" class="form-control" id="username">
+                </div>
+                <div class="form-group first">
+                        <span asp-validation-for="email" class="text-danger"></span>
+
+                  <label for="email">E-mail</label>
+                  <input asp-for="email" class="form-control" placeholder="your-email@gmail.com" id="username">
+                </div>
+                <div class="form-group last mb-1">
+                        <span asp-validation-for="password" class="text-danger"></span>
+
+                  <label for="password">Password</label>
+                  <input asp-for="password" type="password" class="form-control" placeholder="Your Password" id="password">
+                </div>
+                 <div class="form-group last mb-1">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                  <label for="ConfirmPassword">ConfirmPassword</label>
+                  <input asp-for="ConfirmPassword" type="password" class="form-control">
+                </div>
+                <div class="form-group last mb-1">
+                        <span asp-validation-for="location" class="text-danger"></span>
+
+                  <label for="location">Address</label>
+                  <input asp-for="location" class="form-control">
+                </div>
+                <div class="form-group last mb-1">
+                        <span asp-validation-for="phone" class="text-danger"></span>
+
+                  <label for="phone">Phone</label>
+                  <input asp-for="phone" class="form-control">
+                </div>                
+                <input type="submit" value="Sign Up" class="btn btn-block my-2 py-2 btn-google">
+             </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>   
+  </div>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

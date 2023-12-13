@@ -1,0 +1,31 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Add_Product";
+    Layout = "_Dashboard";
+}
+
+<h1>Add_Product</h1>
+<form asp-action="Add_Product" asp-controller="Product" method="post" enctype="multipart/form-data">
+    <div class="form-group first my-3">
+        <label for="product_name" class="text-danger my-3"><h5>Product Title:</h5></label>
+        <input asp-for="product_name" class="form-control">
+    </div>
+    <div class="form-group first my-3">
+        <label for="product_price" class="text-danger my-3"><h5>Price:</h5></label>
+        <input asp-for="product_price" class="form-control">
+    </div>
+    <div class="form-group first my-3">
+        <label for="product_image" class="text-danger my-3"><h5>Image:</h5></label>
+        <input type="file" asp-for="product_image" class="form-control">
+    </div>
+    <div class="form-group first my-3">
+        <label for="description" class="text-danger my-3"><h5>Description:</h5></label>
+        <input asp-for="description" class="form-control">
+    </div>
+    <div class="form-group first my-3">
+        <label for="category_id" class="text-danger my-3"><h5>Category:</h5></label>
+        <select asp-for="category_ID" asp-items="@ViewBag.categories">
+        </select>
+    </div>
+    <input type="submit" value="Add" class="btn btn-block py-2 btn-primary">
+</form>
