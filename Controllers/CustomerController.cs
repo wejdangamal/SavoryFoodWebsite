@@ -64,15 +64,15 @@ namespace login_img.Controllers
         [HttpGet]
         public IActionResult login()
         {
-            logV logv = new logV();
+            LoginVM logv = new LoginVM();
             return View(logv);
         }
         [HttpPost]
-        public IActionResult login(logV log)
+        public IActionResult login(LoginVM log)
         {
             Customer customer = db.customers.SingleOrDefault(c => c.email == log.email && c.password == log.password);
             Admin admin = db.admins.SingleOrDefault(c => c.Email == log.email && c.Password == log.password);
-            logV logv = new logV();
+            LoginVM logv = new LoginVM();
             if (customer == null && admin == null)
             {
 

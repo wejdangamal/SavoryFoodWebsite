@@ -1,9 +1,13 @@
 using login_img.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Savory_Website.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FoodDBContext>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddSession();
 var app = builder.Build();
 
