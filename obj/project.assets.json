@@ -9855,11 +9855,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\تعالي ادلعك\\login_img\\Savory_Website.csproj",
+      "projectUniqueName": "C:\\Users\\Wegdan\\source\\repos\\SavoryFoodWebsite\\Savory_Website.csproj",
       "projectName": "Savory_Website",
-      "projectPath": "D:\\تعالي ادلعك\\login_img\\Savory_Website.csproj",
+      "projectPath": "C:\\Users\\Wegdan\\source\\repos\\SavoryFoodWebsite\\Savory_Website.csproj",
       "packagesPath": "C:\\Users\\Wegdan\\.nuget\\packages\\",
-      "outputPath": "D:\\تعالي ادلعك\\login_img\\obj\\",
+      "outputPath": "C:\\Users\\Wegdan\\source\\repos\\SavoryFoodWebsite\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Wegdan\\AppData\\Roaming\\NuGet\\NuGet.Config",

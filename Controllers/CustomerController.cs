@@ -1,8 +1,8 @@
-﻿using login_img.LoginVM;
-using login_img.Models;
+﻿using login_img.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Savory_Website.Models.ViewModels;
 
 namespace login_img.Controllers
 {

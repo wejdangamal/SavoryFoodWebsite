@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9IkNY5G2vhK8hDNCAMX2A1sQPXHWwqPIorxcqBXcYGpTyeOdgXzjIbaitBjmx2IQ5vexiaVCMAxVUnTduoUAGw==",
+  "dgSpecHash": "B/7gYEqG+K/pPyGOySCuRBz0hORoyPPQJhVdbl0KcnUKWQHq7+YnFWOyw8BWFCYtY6PiGWOuOBJYNTquaANpDw==",
   "success": true,
-  "projectFilePath": "D:\\تعالي ادلعك\\login_img\\Savory_Website.csproj",
+  "projectFilePath": "C:\\Users\\Wegdan\\source\\repos\\SavoryFoodWebsite\\Savory_Website.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Wegdan\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Wegdan\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
