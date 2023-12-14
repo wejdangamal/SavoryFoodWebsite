@@ -1,16 +1,19 @@
 ﻿using login_img.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Savory_Website.Repository;
 
 namespace login_img.Controllers
 {
     
     public class AdminController : Controller
     {
-        FoodDBContext db;
-        public AdminController(FoodDBContext db)
+        private readonly IRepository<Admin> repository;
+
+        public AdminController(IRepository<Admin> repository)
         {
-            this.db = db;
+            this.repository = repository;
         }
         
         public IActionResult Dashboard()
@@ -30,12 +33,12 @@ namespace login_img.Controllers
         [HttpPost]
         public IActionResult Login(Admin admin)
         {
-            Admin admins = db.admins.SingleOrDefault(a => a.Email == admin.Email && a.Password == admin.Password);
-            if(admins == null)
+            var adminFound = repository.GetAll(a => a.Email == admin.Email && a.Password == admin.Password).SingleOrDefault();
+            if(adminFound == null)
             {
                 return RedirectToAction("Login");
             }
-            HttpContext.Session.SetInt32("Id", admins.Id);
+            HttpContext.Session.SetInt32("Id", adminFound.Id);
             return RedirectToAction("Dashboard");
         }
         public IActionResult Logout()

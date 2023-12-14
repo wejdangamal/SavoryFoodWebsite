@@ -3,15 +3,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Savory_Website.Models.ViewModels;
+using Savory_Website.Repository;
 
 namespace login_img.Controllers
 {
     public class CustomerController : Controller
     {
         FoodDBContext db;
-        public CustomerController(FoodDBContext db)
+        private readonly IRepository<Customer> _repository;
+
+        public CustomerController(FoodDBContext db,IRepository<Customer> repository)
         {
             this.db = db;
+            _repository = repository;
         }
         [HttpGet]
         public IActionResult Home()

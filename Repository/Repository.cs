@@ -1,5 +1,6 @@
 ﻿using login_img.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Savory_Website.Repository
 {
@@ -33,11 +34,30 @@ namespace Savory_Website.Repository
             var result= await context.SaveChangesAsync();
             return result > 0;
         }
-
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string[] includes = null)
         {
-            var entities = entity.Select(x=>x).ToList();
-            return entities;
+            var query = entity.AsQueryable();
+            if (includes != null)
+            {   
+                foreach(var include in includes)
+                {
+                    query=query.Include(include);
+                }
+            }
+            return query.Select(x=>x).ToList();
+        }
+
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> search, string[] includes = null)
+        {
+            var query = entity.AsQueryable();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return query.Where(search).ToList();
         }
 
         public async Task<T> GetById(int id)
@@ -46,7 +66,7 @@ namespace Savory_Website.Repository
             return entry;
         }
 
-        public async Task<bool> UpdateById(T entity)
+        public async Task<bool> Update(T entity)
         {
             var result = await context.SaveChangesAsync();
             return result > 0;

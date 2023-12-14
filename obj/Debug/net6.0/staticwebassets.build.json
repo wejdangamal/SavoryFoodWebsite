@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "r5vq3THS4ycXrf43OrQfQ8VQzlitJH56RawPIXVLmU4=",
+  "Hash": "yVx0OQiyN9KIMW4gRJsiKFHZSGpRvKIzN5oDRCKwOhk=",
   "Source": "Savory_Website",
   "BasePath": "_content/Savory_Website",
   "Mode": "Default",
@@ -5574,6 +5574,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\soup\\x0jMSo1yy3-1591356196.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Wegdan\\source\\repos\\SavoryFoodWebsite\\wwwroot\\images\\spacex-PIOgkhaF3WA-unsplash.jpg",
+      "SourceId": "Savory_Website",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Wegdan\\source\\repos\\SavoryFoodWebsite\\wwwroot\\",
+      "BasePath": "_content/Savory_Website",
+      "RelativePath": "images/spacex-PIOgkhaF3WA-unsplash.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\spacex-PIOgkhaF3WA-unsplash.jpg"
     },
     {
       "Identity": "C:\\Users\\Wegdan\\source\\repos\\SavoryFoodWebsite\\wwwroot\\images\\tab-icon-01.png",

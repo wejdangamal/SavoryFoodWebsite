@@ -1,18 +1,19 @@
 ﻿using login_img.Models;
 using Microsoft.AspNetCore.Mvc;
+using Savory_Website.Repository;
 
 namespace login_img.Controllers
 {
     public class categoryController : Controller
     {
-        FoodDBContext db;
-        public categoryController(FoodDBContext db)
+        private readonly IRepository<category> _repository;
+        public categoryController(IRepository<category> repository)
         {
-            this.db = db;
+            _repository = repository;
         }
         public IActionResult Categories()
         {
-            List<category> Categories = db.categories.ToList();
+            List<category> Categories = _repository.GetAll().ToList();
             return View(Categories);
         }
 
@@ -25,14 +26,13 @@ namespace login_img.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Add(category category)
+        public async Task<IActionResult> Add(category category)
         {
             category new_category = new category();
             new_category.category_name = category.category_name;
             try
             {
-                db.categories.Add(new_category);
-                db.SaveChanges();
+                await _repository.Add(new_category);
             }
             catch (Exception ex)
             {
@@ -44,44 +44,40 @@ namespace login_img.Controllers
         /* Edit products (Admin)*/
         #region Edit Category
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == 0)
             {
                 return RedirectToAction("Add");
             }
-            category category = db.categories.SingleOrDefault(c => c.category_ID == id);
-            if(category == null)
+            category category = await _repository.GetById(id);
+            if (category == null)
             {
                 return Content("Not Found");
             }
             return View(category);
         }
         [HttpPost]
-        public IActionResult Edit(category category)
+        public async Task<IActionResult> Edit(category category)
         {
-            category cat = db.categories.SingleOrDefault(c => c.category_ID == category.category_ID);
+            category cat = await _repository.GetById(category.category_ID);
             if (cat == null)
             {
                 return Content("Not Found");
             }
             cat.category_name = category.category_name;
-            db.SaveChanges();
+            await _repository.Update(cat);
             return RedirectToAction("Categories");
         }
         #endregion
         /* Delete products (Admin)*/
         #region Delete Category
-        public IActionResult delete(int id)
+        public async Task<IActionResult> delete(int id)
         {
-            category category = db.categories.SingleOrDefault(c => c.category_ID == id);
-            if(category == null)
-            {
-                return Content("Already deleted");
-            }
-            db.Remove(category);
-            db.SaveChanges();
-            return RedirectToAction("Categories");
+            var result = await _repository.DeleteById(id);
+            if (result)
+                return RedirectToAction("Categories");
+            return Content("Not Found");
         }
         #endregion
     }
