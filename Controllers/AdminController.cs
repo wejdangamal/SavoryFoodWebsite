@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Savory_Website.Repository;
-
 namespace login_img.Controllers
 {
-    
+
     public class AdminController : Controller
     {
         private readonly IRepository<Admin> repository;

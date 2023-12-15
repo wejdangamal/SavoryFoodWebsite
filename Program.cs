@@ -1,6 +1,7 @@
-using login_img.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Savory_Website.Data;
 using Savory_Website.Repository;
+using Savory_Website.Repository.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 

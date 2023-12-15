@@ -1,45 +1,41 @@
 ﻿using login_img.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Savory_Website.Repository;
 
 namespace login_img.Controllers
 {
     public class OrderProductsController : Controller
     {
-        private readonly FoodDBContext _context;
+        private readonly IRepository<OrderProduct> repository;
 
-        public OrderProductsController(FoodDBContext context)
+        public OrderProductsController(IRepository<OrderProduct> repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         // GET: OrderProducts
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             int Cid = (int)HttpContext.Session.GetInt32("Id");
-            var foodDBContext = _context.orderProducts.Include(o => o.customer).Include(o => o.products).Where(c => c.customer_id == (int)HttpContext.Session.GetInt32("Id"));
+            var foodDBContext = repository.GetAll(c => c.customer_id == (int)HttpContext.Session.GetInt32("Id"), new string[] { "customer", "products" }).ToList();
             if (foodDBContext == null)
             {
                 return RedirectToAction("Home", "Customer");
             }
-            return View(await foodDBContext.ToListAsync());
+            return View(foodDBContext);
         }
-
-
-
         // GET: OrderProducts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             int Cid = (int)HttpContext.Session.GetInt32("Id");
-            if (id == null || _context.orderProducts == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var orderProduct = await _context.orderProducts
-                .Include(o => o.customer)
-                .Include(o => o.products)
-                .FirstOrDefaultAsync(m => m.productId == id);
+            var orderProduct = repository.GetAll(m => m.productId == id&&m.customer_id==Cid, new string[] { "customer", "products" })
+                .FirstOrDefault();
             if (orderProduct == null)
             {
                 return NotFound();
@@ -47,31 +43,27 @@ namespace login_img.Controllers
 
             return View(orderProduct);
         }
-
         // POST: OrderProducts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             int Cid = (int)HttpContext.Session.GetInt32("Id");
-            if (_context.orderProducts == null)
+            if (repository == null)
             {
                 return Problem("Entity set 'FoodDBContext.orderProducts'  is null.");
             }
-            //  var orderProduct = await _context.orderProducts.FindAsync(id);
-            var orderProduct = await _context.orderProducts.SingleOrDefaultAsync(c => c.productId == id && c.customer_id == Cid);
+            var orderProduct =  repository.GetAll(c => c.productId == id && c.customer_id == Cid).FirstOrDefault();
+
             if (orderProduct != null)
             {
-                _context.orderProducts.Remove(orderProduct);
+               var result = await repository.Delete(orderProduct);
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool OrderProductExists(int id)
         {
-            return _context.orderProducts.Any(e => e.customer_id == id);
+            return repository.GetAll().Any(e => e.customer_id == id);
         }
     }
 }

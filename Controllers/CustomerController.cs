@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Savory_Website.Data;
 using Savory_Website.Models.ViewModels;
 using Savory_Website.Repository;
 
@@ -9,13 +10,18 @@ namespace login_img.Controllers
 {
     public class CustomerController : Controller
     {
-        FoodDBContext db;
-        private readonly IRepository<Customer> _repository;
+        private readonly IRepository<Customer> _CustomerRepository;
+        private readonly IRepository<Admin> adminRepository;
+        private readonly IRepository<Product> productRepository;
+        private readonly IRepository<OrderProduct> _orderProductRepository;
 
-        public CustomerController(FoodDBContext db,IRepository<Customer> repository)
+        public CustomerController(IRepository<Customer> CustomerRepository, IRepository<Admin> adminRepository, IRepository<Product> productRepository
+            , IRepository<OrderProduct> orderProductRepository)
         {
-            this.db = db;
-            _repository = repository;
+            _CustomerRepository = CustomerRepository;
+            this.adminRepository = adminRepository;
+            this.productRepository = productRepository;
+            _orderProductRepository = orderProductRepository;
         }
         [HttpGet]
         public IActionResult Home()
@@ -25,25 +31,20 @@ namespace login_img.Controllers
             {
                 return RedirectToAction("login");
             }
-            //Customer customer = db.customers.SingleOrDefault(c => c.Id == userId);
-            //  HttpContext.Session.SetInt32("Id", customer.Id);
-            List<Product> products = db.products.ToList();
-            //  OrderProductVM op = new OrderProductVM();
-            // ViewBag.OrderProductVM = op;
+            List<Product> products = productRepository.GetAll().ToList();
             return View(products);
         }
         public IActionResult Menu(int? id)
         {
-
             int? userId = (int)HttpContext.Session.GetInt32("Id");
             if (userId == null)
             {
                 return RedirectToAction("login");
             }
-            List<Product> products = db.products.Where(p => p.category_ID == id).ToList();
+            List<Product> products = productRepository.GetAll(p => p.category_ID == id).ToList(); 
             if (products.Count == 0 || products == null)
             {
-                products = db.products.ToList();
+                products = productRepository.GetAll().ToList();
             }
             return View(products);
         }
@@ -53,17 +54,15 @@ namespace login_img.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Register(Customer customer)
+        public async Task<IActionResult> Register(Customer customer)
         {
-            if (customer == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                await _CustomerRepository.Add(customer);
+                HttpContext.Session.SetInt32("Id", customer.Id);
+                return RedirectToAction("Home");
             }
-            db.customers.Add(customer);
-            db.SaveChanges();
-            // home 
-            HttpContext.Session.SetInt32("Id", customer.Id);
-            return RedirectToAction("Home");
+            return Content(ModelState.ErrorCount.ToString());
         }
         [HttpGet]
         public IActionResult login()
@@ -74,12 +73,11 @@ namespace login_img.Controllers
         [HttpPost]
         public IActionResult login(LoginVM log)
         {
-            Customer customer = db.customers.SingleOrDefault(c => c.email == log.email && c.password == log.password);
-            Admin admin = db.admins.SingleOrDefault(c => c.Email == log.email && c.Password == log.password);
+            Customer customer = _CustomerRepository.GetAll(c => c.email == log.email && c.password == log.password).SingleOrDefault();
+            Admin admin = adminRepository.GetAll(c => c.Email == log.email && c.Password == log.password).SingleOrDefault();
             LoginVM logv = new LoginVM();
             if (customer == null && admin == null)
             {
-
                 logv.Message = "wrong";
                 return RedirectToAction("login", logv);
             }
@@ -89,12 +87,8 @@ namespace login_img.Controllers
                 HttpContext.Session.SetInt32("Id", customer.Id);
                 return RedirectToAction("Home");
             }
-
-
             HttpContext.Session.SetInt32("Id", admin.Id);
             return RedirectToAction("Dashboard", "Admin");
-
-
         }
         public IActionResult Logout()
         {
@@ -102,27 +96,23 @@ namespace login_img.Controllers
             return RedirectToAction("login");
         }
 
-        public IActionResult AddCart(int id)
+        public async Task<IActionResult> AddCart(int id)
         {
-
             OrderProduct op = new OrderProduct();
 
             op.productId = id;
 
             if ((int)HttpContext.Session.GetInt32("Id") != null)
             {
-
                 op.customer_id = (int)HttpContext.Session.GetInt32("Id");
                 op.Date = DateTime.Today.ToString("dd-MM-yyyy");
-                op.Price = db.products.Where(p => p.product_ID == id).Select(p => p.product_price).SingleOrDefault();
+                op.Price = productRepository.GetAll(p => p.product_ID == id).Select(p => p.product_price).SingleOrDefault();
                 try
                 {
-                    db.orderProducts.Add(op);
-                    db.SaveChanges();
+                   await _orderProductRepository.Add(op);
                 }
                 catch (Exception ex)
                 {
-                  
                     return RedirectToAction("Index", "OrderProducts");
                 }
             }

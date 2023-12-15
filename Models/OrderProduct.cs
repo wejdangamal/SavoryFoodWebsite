@@ -9,7 +9,6 @@ namespace login_img.Models
         public int CartId { get; set; }
         public string Date { get; set; }
         public double Price { get; set; }
-      
         [ForeignKey("products")]
         public int productId { get; set; }
         public Product products { get; set; }
